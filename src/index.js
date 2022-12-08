@@ -1,10 +1,18 @@
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+//import SimpleLightbox from 'simplelightbox';
 
 const searchBtn = document.querySelector('button[search-btn]');
+const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('input');
 const imgList = document.querySelector('.gallery-box');
+const gallery = document.querySelector('.gallery');
 const API_KEY = '31934367-658e9fff939a1c4d22479e433';
+let words = '';
+let simpleLightBox;
+const perPage = 40;
+
+searchForm.addEventListener('submit', onSearchForm);
 
 searchBtn.addEventListener('click', async () => {
   try {
@@ -20,18 +28,51 @@ async function searchImg(words) {
   //const imageIds = [1, 2, 3, 4, 5];
 
   //const arrayOfPromises = imageIds.map(async imageId => {
-  const response = await fetch(
-    `${baseUrl}/?key={API_KEY}&q=${words}&image_type=photo`
-  );
+  const response = await axios
+    .get(`${baseUrl}/?key=${API_KEY}&q=${words}&image_type=photo`)
+    .then(response => response.data);
   return response;
   //const words = await Promise.all(arrayOfPromises);
   //return words;
 }
 
-function renderImgListItems(words) {
-  const markup = words
-    .map(word => {
-      const {
+function onSearchForm(event) {
+  event.preventDefault();
+  window.scrollTo({ top: 0 });
+  //page = 1;
+  words = e.currentTarget.searchQuery.value.trim();
+  imgList.innerHTML = '';
+  //loadMoreBtn.classList.add('is-hidden');
+
+  if (words === '') {
+    alert('wpisz jakieś słowo!');
+    return;
+  }
+
+  searchImg(query, page, perPage)
+    .then(({ data }) => {
+      if (data.totalHits === 0) {
+        console.log('nie znaleźliśmy takich obrazków');
+      } else {
+        renderImgListItems(data.hits);
+        simpleLightBox = new SimpleLightbox('.gallery a').refresh();
+        console.log(`znaleźliśmy ${data} obrazków`);
+
+        //    if (data.totalHits > perPage) {
+        //      loadMoreBtn.classList.remove('is-hidden');
+        //    }
+      }
+    })
+    .catch(error => console.log(error))
+    .finally(() => {
+      searchForm.reset();
+    });
+}
+
+function renderImgListItems(images) {
+  const markup = images
+    .map(
+      ({
         webformatURL,
         largeImageURL,
         tags,
@@ -39,38 +80,63 @@ function renderImgListItems(words) {
         views,
         comments,
         downloads,
-      } = word;
-      return `<div class="photo-card">
-  <img src="" alt="" loading="lazy" />
+      }) => {
+        return `<a class="gallery__link" href="${largeImageURL}">
+    <div class="photo-card">
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>Likes ${word.likes}</b>
+      <b>Likes ${likes}</b>
     </p>
     <p class="info-item">
-      <b>Views ${word.views}</b>
+      <b>Views ${views}</b>
     </p>
     <p class="info-item">
-      <b>Comments ${word.comments}</b>
+      <b>Comments ${comments}</b>
     </p>
     <p class="info-item">
-      <b>Downloads ${word.downloads}</b>
+      <b>Downloads ${downloads}</b>
     </p>
   </div>
-</div>`;
-    })
+</div>
+</a>`;
+      }
+    )
     .join('');
-  imgList.innerHTML = markup;
+  gallery.insertAdjacentHTML('beforeend', markup);
+  //imgList.innerHTML = markup;
 }
 
-// async function seachImg() {
-//   const baseUrl = `https://pixabay.com/api/?key={api_key}&q=${words}&image_type=photo`;
-//   const data = await Response.json();
-//   return data.hits;
-// }
+function onSearchForm(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0 });
+  page = 1;
+  query = e.currentTarget.searchQuery.value.trim();
+  gallery.innerHTML = '';
+  //loadMoreBtn.classList.add('is-hidden');
 
-// function loadImagesToGallery() {
-//   searchImg.then(imgObj => {
-//     console.log(`async and await >>`, imgObj);
-//   });
-// }
-// loadImagesToGallery();
+  if (query === '') {
+    alert('wpisz jakieś słowo!');
+    return;
+  }
+
+  searchImg(query, page, perPage)
+    .then(data => {
+      if (data.length === 0) {
+        console.log('nie znaleźliśmy takich obrazków');
+      } else {
+        renderImgListItems(data.hits);
+        //simpleLightBox = new SimpleLightbox('.gallery a').refresh();
+        console.log(`znaleźliśmy ${data} obrazków`);
+        //alertImagesFound(data);
+
+        // if (data.totalHits > perPage) {
+        //   loadMoreBtn.classList.remove('is-hidden');
+        // }
+      }
+    })
+    .catch(error => console.log(error))
+    .finally(() => {
+      searchForm.reset();
+    });
+}
