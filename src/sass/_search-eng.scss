@@ -91,6 +91,10 @@ body {
   margin-bottom: 20px;
 }
 
+.load-more.is-hidden {
+  display: none;
+}
+
 .btn-up {
   cursor: pointer;
   position: fixed;
@@ -121,6 +125,7 @@ body {
   margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
+  padding-top: 50px;
 }
 .gallery {
   padding-top: 50px;
