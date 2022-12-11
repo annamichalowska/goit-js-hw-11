@@ -25,7 +25,6 @@ searchBtn.addEventListener('click', async () => {
 
 async function searchImg(words) {
   const baseUrl = 'https://pixabay.com/api/';
-  //const imageIds = [1, 2, 3, 4, 5];
 
   //const arrayOfPromises = imageIds.map(async imageId => {
   const response = await axios
@@ -44,10 +43,10 @@ function onSearchForm(event) {
   imgList.innerHTML = '';
   //loadMoreBtn.classList.add('is-hidden');
 
-  if (words === '') {
-    alert('wpisz jakieś słowo!');
-    return;
-  }
+  // if (words === '') {
+  //   Notify.failure('What would you search');
+  //   return;
+  // }
 
   searchImg(query, page, perPage)
     .then(({ data }) => {
@@ -56,7 +55,7 @@ function onSearchForm(event) {
       } else {
         renderImgListItems(data.hits);
         simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-        console.log(`znaleźliśmy ${data} obrazków`);
+        Notify.info(`Hooray! We found ${data} images.`);
 
         //    if (data.totalHits > perPage) {
         //      loadMoreBtn.classList.remove('is-hidden');
@@ -108,23 +107,25 @@ function onSearchForm(e) {
   //loadMoreBtn.classList.add('is-hidden');
 
   if (query === '') {
-    alert('wpisz jakieś słowo!');
+    Notify.failure('What would you search?');
     return;
   }
 
   searchImg(query, page, perPage)
     .then(data => {
       if (data.length === 0) {
-        console.log('nie znaleźliśmy takich obrazków');
+        Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
       } else {
         renderImgListItems(data.hits);
         //simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-        console.log(`znaleźliśmy ${data} obrazków`);
-        //alertImagesFound(data);
+        Notify.info(`Hooray! We found ${data.hits} images.`);
+        alertImagesFound(data);
 
-        // if (data.totalHits > perPage) {
-        //   loadMoreBtn.classList.remove('is-hidden');
-        // }
+        if (data.totalHits > perPage) {
+          loadMoreBtn.classList.remove('is-hidden');
+        }
       }
     })
     .catch(error => console.log(error))
