@@ -83,23 +83,15 @@ function renderImgListItems(images) {
       }) => {
         return `<a class="gallery__link" href="${largeImageURL}">
     <div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-  <div class="info">
-    <p class="info-item">
-      <b>Likes ${likes}</b>
-    </p>
-    <p class="info-item">
-      <b>Views ${views}</b>
-    </p>
-    <p class="info-item">
-      <b>Comments ${comments}</b>
-    </p>
-    <p class="info-item">
-      <b>Downloads ${downloads}</b>
-    </p>
-  </div>
-</div>
-</a>`;
+      <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+      <div class="info">
+        <p class="info__item"><span>Likes</span><br>${likes}</p>
+        <p class="info__item"><span>Views</span><br>${views}</p>
+        <p class="info__item"><span>Comments</span><br>${comments}</p>
+        <p class="info__item"><span>Downloads</span><br>${downloads}</p>
+      </div>
+    </div>
+  </a>`;
       }
     )
     .join('');
