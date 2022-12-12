@@ -4,9 +4,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchBtn = document.querySelector('button[search-btn]');
-const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('input');
-const imgList = document.querySelector('.gallery-box');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
 const API_KEY = '31934367-658e9fff939a1c4d22479e433';
