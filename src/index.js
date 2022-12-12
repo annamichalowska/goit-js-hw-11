@@ -28,15 +28,18 @@ let query = '';
 //   }
 // });
 
-async function searchImg(words) {
+async function searchImg(word, page) {
   const baseUrl = 'https://pixabay.com/api/';
   const response = await axios
-    .get(`${baseUrl}/?key=${API_KEY}&q=${words}&image_type=photo`)
+    .get(
+      `${baseUrl}/?key=${API_KEY}&q=${word}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
+    )
     .then(response => response.data);
   return response;
 }
 
 function renderImgListItems(images) {
+  console.log(images, 'images');
   const markup = images
     .map(
       ({
@@ -91,7 +94,7 @@ searchBtn.addEventListener('click', e => {
 });
 
 loadMoreBtn.addEventListener('click', () => {
-  pageNumber += 1;
+  pageNumber++;
   const trimmedValue = searchInput.value.trim();
   loadMoreBtn.style.display = 'none';
   searchImg(trimmedValue, pageNumber).then(foundData => {
