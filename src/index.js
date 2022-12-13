@@ -60,9 +60,7 @@ searchBtn.addEventListener('click', event => {
   if (wordTrimed !== '') {
     searchImg(wordTrimed, pageNumber).then(wordFound => {
       if (wordFound.hits.length === 0) {
-        Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
+        noImgFound();
       } else {
         renderImgListItems(wordFound.hits);
         Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
@@ -81,9 +79,7 @@ loadMoreBtn.addEventListener('click', () => {
   loadMoreBtn.style.display = 'none';
   searchImg(wordTrimed, pageNumber).then(wordFound => {
     if (wordFound.hits.length === 0) {
-      Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
+      noImgFound();
     } else {
       renderImgListItems(wordFound.hits);
       Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
@@ -91,3 +87,9 @@ loadMoreBtn.addEventListener('click', () => {
     }
   });
 });
+
+function noImgFound() {
+  Notify.failure(
+    'Sorry, there are no images matching your search query. Please try again.'
+  );
+}
