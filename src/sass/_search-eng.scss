@@ -7,6 +7,11 @@ body {
   background-color: #b5838d;
 }
 
+html,
+body {
+  scroll-behavior: smooth;
+}
+
 .search-box {
   background-color: #6d6875;
   position: fixed;
