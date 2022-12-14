@@ -116,6 +116,13 @@ body {
   justify-content: center;
   border-radius: 50%;
   background-color: #ffcdb2;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.btn-up__visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 .btn-up__icon {

@@ -7,6 +7,7 @@ const searchBtn = document.querySelector('button[search-btn]');
 const searchInput = document.querySelector('input');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
+const upBtn = document.querySelector('.btn-up');
 const API_KEY = '31934367-658e9fff939a1c4d22479e433';
 
 let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
@@ -74,6 +75,7 @@ searchBtn.addEventListener('click', event => {
 });
 
 loadMoreBtn.addEventListener('click', () => {
+  upBtn.classList.add('btn-up__visible');
   pageNumber++;
   const wordTrimed = searchInput.value.trim();
   loadMoreBtn.style.display = 'none';
@@ -84,6 +86,15 @@ loadMoreBtn.addEventListener('click', () => {
       renderImgListItems(wordFound.hits);
       Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
       loadMoreBtn.style.display = 'block';
+
+      const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 20,
+        behavior: 'smooth',
+      });
     }
   });
 });
