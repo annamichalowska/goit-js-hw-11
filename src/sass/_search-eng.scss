@@ -259,7 +259,7 @@ body {
   span.switcher {
     position: relative;
 
-    width: 250px;
+    width: 200px;
     height: 50px;
     border-radius: 25px;
     input {
@@ -267,7 +267,7 @@ body {
 
       position: relative;
 
-      width: 250px;
+      width: 200px;
       height: 50px;
       border-radius: 25px;
 
@@ -322,7 +322,7 @@ body {
           }
           & + label {
             left: 10px;
-            right: 150px;
+            right: 110px;
 
             background: #6d6875;
 
@@ -341,7 +341,7 @@ body {
             transition: color 0.5s 0.2s;
           }
           & + label {
-            left: 145px;
+            left: 95px;
             right: 10px;
 
             background: #ffcdb2;
