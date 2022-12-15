@@ -1,17 +1,26 @@
-<div class="search-box">
-  <form class="search-form">
-    <input
-      type="text"
-      name="searchQuery"
-      autocomplete="off"
-      placeholder="Search images..."
-    />
-    <button type="submit" search-btn>
-      <svg class="submit-icon">
-        <use xlink:href="images/icons.svg#icon-submit"></use>
-      </svg>
-    </button>
-  </form>
+<div class="header">
+  <div class="search-box">
+    <form class="search-form">
+      <input
+        type="text"
+        name="searchQuery"
+        autocomplete="off"
+        placeholder="Search images..."
+      />
+      <button type="submit" search-btn>
+        <svg class="submit-icon">
+          <use xlink:href="images/icons.svg#icon-submit"></use>
+        </svg>
+      </button>
+    </form>
+    <!-- switch-btn -->
+    <div class="btn-switch">
+      <span class="switcher switcher-1">
+        <input type="checkbox" id="switcher-1" />
+        <label for="switcher-1"><b></b></label>
+      </span>
+    </div>
+  </div>
 </div>
 <div class="gallery-box" id="gallery-box">
   <div class="gallery"></div>

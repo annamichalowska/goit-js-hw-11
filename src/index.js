@@ -92,7 +92,7 @@ loadMoreBtn.addEventListener('click', () => {
         .firstElementChild.getBoundingClientRect();
 
       window.scrollBy({
-        top: cardHeight * 20,
+        top: cardHeight * 3,
         behavior: 'smooth',
       });
     }
