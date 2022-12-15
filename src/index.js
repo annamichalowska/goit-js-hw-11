@@ -4,6 +4,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchBtn = document.querySelector('button[search-btn]');
+//const switchBtn = document.querySelector('');
 const searchInput = document.querySelector('input');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
