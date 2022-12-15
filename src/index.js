@@ -67,8 +67,12 @@ searchBtn.addEventListener('click', event => {
       } else {
         renderImgListItems(wordFound.hits);
         Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
-        loadMoreBtn.style.display = 'block';
-        gallerySimpleLightbox.refresh();
+        if (switchBtnLoad) {
+          loadMoreBtn.style.display = 'block';
+          gallerySimpleLightbox.refresh();
+        } else {
+          loadMoreBtn.style.display = 'none';
+        }
       }
     });
   } else {
@@ -109,8 +113,14 @@ function noImgFound() {
 
 switchBtnLoad.addEventListener('click', () => {
   console.log('kliknąłeś load more!!!!');
+  switchBtnLoad.style.display = 'none';
+  switchBtnScroll.style.display = 'block';
+  loadMoreBtn.style.display = 'block';
 });
 
 switchBtnScroll.addEventListener('click', () => {
-  console.log('kliknąłeś load scroll!!!!');
+  console.log('kliknąłeś scroll!!!!');
+  switchBtnScroll.style.display = 'none';
+  switchBtnLoad.style.display = 'block';
+  loadMoreBtn.style.display = 'none';
 });
