@@ -4,9 +4,17 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchBtn = document.querySelector('button[search-btn]');
-const switchBtn = document.querySelector('.input-switch');
-const switchBtnScroll = document.querySelector('.btn-scroll');
-const switchBtnLoad = document.querySelector('.btn-load');
+//const switchBtnScroll = document.querySelector('.btn-scroll');
+//const switchBtnLoad = document.querySelector('.btn-load');
+// const switchBtnLoad2 = window
+//   .getComputedStyle(document.querySelector('.input-switch'), ':before')
+//   .getPropertyValue('switchBtnLoad2');
+
+// switchBtnLoad2.addEventListener('click', () => {
+//   console.log('UDAŁO SIĘ!!!!!');
+// });
+
+
 const searchInput = document.querySelector('input');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
@@ -112,39 +120,16 @@ function noImgFound() {
   );
 }
 
-switchBtnLoad.addEventListener('click', () => {
-  loadMoreBtn.style.display = 'none';
-  console.log('kliknąłeś load more!!!!');
-  switchBtnLoad.style.display = 'none';
-  switchBtnScroll.style.display = 'block';
+// switchBtnLoad.addEventListener('click', () => {
+//   console.log('kliknąłeś load more!!!!');
+//   switchBtnLoad.style.display = 'none';
+//   switchBtnScroll.style.display = 'block';
+//   loadMoreBtn.style.display = 'block';
+// });
 
-  upBtn.classList.add('btn-up__visible');
-  pageNumber++;
-  const wordTrimed = searchInput.value.trim();
-  loadMoreBtn.style.display = 'none';
-  searchImg(wordTrimed, pageNumber).then(wordFound => {
-    if (wordFound.hits.length === 0) {
-      noImgFound();
-    } else {
-      renderImgListItems(wordFound.hits);
-      Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
-      loadMoreBtn.style.display = 'block';
-
-      const { height: cardHeight } = document
-        .querySelector('.gallery')
-        .firstElementChild.getBoundingClientRect();
-
-      window.scrollBy({
-        top: cardHeight * 3,
-        behavior: 'smooth',
-      });
-    }
-  });
-});
-
-switchBtnScroll.addEventListener('click', () => {
-  console.log('kliknąłeś scroll!!!!');
-  switchBtnScroll.style.display = 'none';
-  switchBtnLoad.style.display = 'block';
-  loadMoreBtn.style.display = 'none';
-});
+// switchBtnScroll.addEventListener('click', () => {
+//   console.log('kliknąłeś scroll!!!!');
+//   switchBtnScroll.style.display = 'none';
+//   switchBtnLoad.style.display = 'block';
+//   loadMoreBtn.style.display = 'none';
+// });
