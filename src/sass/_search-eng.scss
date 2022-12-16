@@ -187,7 +187,7 @@ body {
 }
 
 .gallery {
-  padding-top: 50px;
+  padding-top: 100px;
   display: grid;
   flex-wrap: wrap;
   align-items: center;
@@ -198,11 +198,13 @@ body {
 @media screen and (min-width: 768px) and (max-width: 1199px) {
   .gallery {
     grid-template-columns: auto auto;
+    padding-top: 50px;
   }
 }
 @media screen and (min-width: 1200px) {
   .gallery {
     grid-template-columns: auto auto auto auto;
+    padding-top: 50px;
   }
 }
 
