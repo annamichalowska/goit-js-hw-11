@@ -4,17 +4,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchBtn = document.querySelector('button[search-btn]');
-//const switchBtnScroll = document.querySelector('.btn-scroll');
-//const switchBtnLoad = document.querySelector('.btn-load');
-// const switchBtnLoad2 = window
-//   .getComputedStyle(document.querySelector('.input-switch'), ':before')
-//   .getPropertyValue('switchBtnLoad2');
-
-// switchBtnLoad2.addEventListener('click', () => {
-//   console.log('UDAŁO SIĘ!!!!!');
-// });
-
-
+const inputButton = document.querySelector('.input-switch');
 const searchInput = document.querySelector('input');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
@@ -76,12 +66,25 @@ searchBtn.addEventListener('click', event => {
       } else {
         renderImgListItems(wordFound.hits);
         Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
-        if (switchBtnLoad) {
-          loadMoreBtn.style.display = 'block';
-          gallerySimpleLightbox.refresh();
-        } else {
-          loadMoreBtn.style.display = 'none';
-        }
+        loadMoreBtn.style.display = 'block';
+        inputButton.addEventListener('click', () => {
+          if (inputButton.checked) {
+            console.log('scroll');
+            loadMoreBtn.style.display = 'none';
+
+            let elem = document.querySelector('.gallery');
+            let infScroll = new InfiniteScroll(elem, {
+              // options
+              path: '.pagination__next',
+              append: '.post',
+              history: false,
+            });
+          } else {
+            console.log('load more');
+            loadMoreBtn.style.display = 'block';
+            gallerySimpleLightbox.refresh();
+          }
+        });
       }
     });
   } else {
@@ -101,11 +104,9 @@ loadMoreBtn.addEventListener('click', () => {
       renderImgListItems(wordFound.hits);
       Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
       loadMoreBtn.style.display = 'block';
-
       const { height: cardHeight } = document
         .querySelector('.gallery')
         .firstElementChild.getBoundingClientRect();
-
       window.scrollBy({
         top: cardHeight * 3,
         behavior: 'smooth',
@@ -119,17 +120,3 @@ function noImgFound() {
     'Sorry, there are no images matching your search query. Please try again.'
   );
 }
-
-// switchBtnLoad.addEventListener('click', () => {
-//   console.log('kliknąłeś load more!!!!');
-//   switchBtnLoad.style.display = 'none';
-//   switchBtnScroll.style.display = 'block';
-//   loadMoreBtn.style.display = 'block';
-// });
-
-// switchBtnScroll.addEventListener('click', () => {
-//   console.log('kliknąłeś scroll!!!!');
-//   switchBtnScroll.style.display = 'none';
-//   switchBtnLoad.style.display = 'block';
-//   loadMoreBtn.style.display = 'none';
-// });
