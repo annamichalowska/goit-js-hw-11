@@ -74,13 +74,16 @@ searchBtn.addEventListener('click', event => {
             loadMoreBtn.style.display = 'none';
             gallerySimpleLightbox.refresh();
 
-            // let elem = document.querySelector('.gallery');
-            // let infScroll = new InfiniteScroll(elem, {
-            //   // options
-            //   path: '.pagination__next',
-            //   append: '.post',
-            //   history: false,
-            // });
+            window.addEventListener('scroll', () => {
+              console.log(window.scrollY);
+              console.log(window.innerHeight);
+              if (
+                window.scrollY + window.innerHeight >=
+                document.documentElement.scrollHeight
+              ) {
+                loadingGallery();
+              }
+            });
           } else {
             console.log('load more');
             loadMoreBtn.style.display = 'block';
@@ -95,6 +98,16 @@ searchBtn.addEventListener('click', event => {
 });
 
 loadMoreBtn.addEventListener('click', () => {
+  loadingGallery();
+});
+
+function noImgFound() {
+  Notify.failure(
+    'Sorry, there are no images matching your search query. Please try again.'
+  );
+}
+
+function loadingGallery() {
   upBtn.classList.add('btn-up__visible');
   pageNumber++;
   const wordTrimed = searchInput.value.trim();
@@ -116,10 +129,4 @@ loadMoreBtn.addEventListener('click', () => {
       });
     }
   });
-});
-
-function noImgFound() {
-  Notify.failure(
-    'Sorry, there are no images matching your search query. Please try again.'
-  );
 }
