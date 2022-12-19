@@ -67,10 +67,12 @@ searchBtn.addEventListener('click', event => {
         renderImgListItems(wordFound.hits);
         Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
         loadMoreBtn.style.display = 'block';
+        gallerySimpleLightbox.refresh();
         inputButton.addEventListener('click', () => {
           if (inputButton.checked) {
             console.log('scroll');
             loadMoreBtn.style.display = 'none';
+            gallerySimpleLightbox.refresh();
 
             // let elem = document.querySelector('.gallery');
             // let infScroll = new InfiniteScroll(elem, {
@@ -104,6 +106,7 @@ loadMoreBtn.addEventListener('click', () => {
       renderImgListItems(wordFound.hits);
       Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
       loadMoreBtn.style.display = 'block';
+      gallerySimpleLightbox.refresh();
       const { height: cardHeight } = document
         .querySelector('.gallery')
         .firstElementChild.getBoundingClientRect();
