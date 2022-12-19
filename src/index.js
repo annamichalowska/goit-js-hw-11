@@ -13,6 +13,7 @@ const API_KEY = '31934367-658e9fff939a1c4d22479e433';
 
 let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let pageNumber = 1;
+let perPage = 40;
 
 //checkedSwitcher();
 switcherBtn();
@@ -95,8 +96,11 @@ function loadingGallery() {
   const wordTrimed = searchInput.value.trim();
   loadMoreBtn.style.display = 'none';
   searchImg(wordTrimed, pageNumber).then(wordFound => {
-    if (wordFound.hits.length === 0) {
-      noImgFound();
+    let totalPages = wordFound.totalHits / perPage;
+    if (pageNumber >= totalPages) {
+      Notify.failure(
+        "Were sorry, but you've reached the end of search results."
+      );
     } else {
       renderImgListItems(wordFound.hits);
       Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
