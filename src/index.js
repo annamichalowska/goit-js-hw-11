@@ -14,6 +14,9 @@ const API_KEY = '31934367-658e9fff939a1c4d22479e433';
 let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let pageNumber = 1;
 
+//checkedSwitcher();
+switcherBtn();
+
 async function searchImg(word, page) {
   const baseUrl = 'https://pixabay.com/api/';
   const response = await axios
@@ -68,26 +71,7 @@ searchBtn.addEventListener('click', event => {
         Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
         loadMoreBtn.style.display = 'block';
         gallerySimpleLightbox.refresh();
-        inputButton.addEventListener('click', () => {
-          if (inputButton.checked) {
-            console.log('scroll');
-            loadMoreBtn.style.display = 'none';
-            gallerySimpleLightbox.refresh();
-
-            window.addEventListener('scroll', () => {
-              if (
-                window.scrollY + window.innerHeight >=
-                document.documentElement.scrollHeight
-              ) {
-                loadingGallery();
-              }
-            });
-          } else {
-            console.log('load more');
-            loadMoreBtn.style.display = 'block';
-            gallerySimpleLightbox.refresh();
-          }
-        });
+        switcherBtn();
       }
     });
   } else {
@@ -117,6 +101,7 @@ function loadingGallery() {
       renderImgListItems(wordFound.hits);
       Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
       loadMoreBtn.style.display = 'block';
+      switcherBtn();
       gallerySimpleLightbox.refresh();
       const { height: cardHeight } = document
         .querySelector('.gallery')
@@ -128,3 +113,43 @@ function loadingGallery() {
     }
   });
 }
+
+function switcherBtn() {
+  inputButton.addEventListener('click', () => {
+    gallerySimpleLightbox.refresh();
+    if (inputButton.checked) {
+      console.log('scroll');
+      loadMoreBtn.style.display = 'none';
+      gallerySimpleLightbox.refresh();
+
+      window.addEventListener('scroll', () => {
+        if (
+          window.scrollY + window.innerHeight >=
+          document.documentElement.scrollHeight
+        ) {
+          loadingGallery();
+        }
+      });
+    } else {
+      console.log('load more');
+    }
+  });
+}
+
+// function checkedSwitcher() {
+//   loadMoreBtn.style.display = 'none';
+//   if (inputButton.checked) {
+//     console.log('scroll');
+
+//     window.addEventListener('scroll', () => {
+//       if (
+//         window.scrollY + window.innerHeight >=
+//         document.documentElement.scrollHeight
+//       ) {
+//         loadingGallery();
+//       }
+//     });
+//   } else {
+//     console.log('load more');
+//   }
+// }
