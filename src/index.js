@@ -72,13 +72,13 @@ searchBtn.addEventListener('click', event => {
             console.log('scroll');
             loadMoreBtn.style.display = 'none';
 
-            let elem = document.querySelector('.gallery');
-            let infScroll = new InfiniteScroll(elem, {
-              // options
-              path: '.pagination__next',
-              append: '.post',
-              history: false,
-            });
+            // let elem = document.querySelector('.gallery');
+            // let infScroll = new InfiniteScroll(elem, {
+            //   // options
+            //   path: '.pagination__next',
+            //   append: '.post',
+            //   history: false,
+            // });
           } else {
             console.log('load more');
             loadMoreBtn.style.display = 'block';
