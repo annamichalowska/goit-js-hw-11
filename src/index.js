@@ -15,9 +15,6 @@ let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let pageNumber = 1;
 let perPage = 40;
 
-//checkedSwitcher();
-switcherBtn();
-
 async function searchImg(word, page) {
   const baseUrl = 'https://pixabay.com/api/';
   const response = await axios
@@ -72,7 +69,6 @@ searchBtn.addEventListener('click', event => {
         Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
         loadMoreBtn.style.display = 'block';
         gallerySimpleLightbox.refresh();
-        switcherBtn();
       }
     });
   } else {
@@ -97,15 +93,13 @@ function loadingGallery() {
   loadMoreBtn.style.display = 'none';
   searchImg(wordTrimed, pageNumber).then(wordFound => {
     let totalPages = wordFound.totalHits / perPage;
-    if (pageNumber >= totalPages) {
+    if (pageNumber > totalPages) {
       Notify.failure(
         "Were sorry, but you've reached the end of search results."
       );
     } else {
       renderImgListItems(wordFound.hits);
-      Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
       loadMoreBtn.style.display = 'block';
-      switcherBtn();
       gallerySimpleLightbox.refresh();
       const { height: cardHeight } = document
         .querySelector('.gallery')
@@ -118,42 +112,23 @@ function loadingGallery() {
   });
 }
 
-function switcherBtn() {
-  inputButton.addEventListener('click', () => {
+inputButton.addEventListener('click', () => {
+  if (inputButton.checked) {
+    console.log('scroll');
+    loadMoreBtn.style.display = 'none';
     gallerySimpleLightbox.refresh();
-    if (inputButton.checked) {
-      console.log('scroll');
-      loadMoreBtn.style.display = 'none';
-      gallerySimpleLightbox.refresh();
+  } else {
+    
+    console.log('load more');
+    gallerySimpleLightbox.refresh();
+  }
+});
 
-      window.addEventListener('scroll', () => {
-        if (
-          window.scrollY + window.innerHeight >=
-          document.documentElement.scrollHeight
-        ) {
-          loadingGallery();
-        }
-      });
-    } else {
-      console.log('load more');
-    }
-  });
-}
-
-// function checkedSwitcher() {
-//   loadMoreBtn.style.display = 'none';
-//   if (inputButton.checked) {
-//     console.log('scroll');
-
-//     window.addEventListener('scroll', () => {
-//       if (
-//         window.scrollY + window.innerHeight >=
-//         document.documentElement.scrollHeight
-//       ) {
-//         loadingGallery();
-//       }
-//     });
-//   } else {
-//     console.log('load more');
-//   }
-// }
+window.addEventListener('scroll', () => {
+  if (
+    window.scrollY + window.innerHeight >=
+    document.documentElement.scrollHeight
+  ) {
+    loadingGallery();
+  }
+});
