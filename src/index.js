@@ -21,7 +21,8 @@ async function searchImg(word, page) {
     .get(
       `${baseUrl}/?key=${API_KEY}&q=${word}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
     )
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(error => console.error(error));
   return response;
 }
 
@@ -67,7 +68,6 @@ searchBtn.addEventListener('click', event => {
       } else {
         renderImgListItems(wordFound.hits);
         Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
-        loadMoreBtn.style.display = 'block';
         gallerySimpleLightbox.refresh();
       }
     });
@@ -87,7 +87,6 @@ function noImgFound() {
 }
 
 function loadingGallery() {
-  upBtn.classList.add('btn-up__visible');
   pageNumber++;
   const wordTrimed = searchInput.value.trim();
   loadMoreBtn.style.display = 'none';
@@ -99,7 +98,6 @@ function loadingGallery() {
       );
     } else {
       renderImgListItems(wordFound.hits);
-      loadMoreBtn.style.display = 'block';
       gallerySimpleLightbox.refresh();
       const { height: cardHeight } = document
         .querySelector('.gallery')
@@ -108,18 +106,24 @@ function loadingGallery() {
         top: cardHeight * 3,
         behavior: 'smooth',
       });
+      if (totalPages < 2) {
+        loadMoreBtn.style.display = 'none';
+      } else {
+        loadMoreBtn.style.display = 'block';
+      }
+    }
+    if (totalPages >= 2) {
+      upBtn.classList.add('btn-up__visible');
     }
   });
 }
 
 inputButton.addEventListener('click', () => {
   if (inputButton.checked) {
-    console.log('scroll');
     loadMoreBtn.style.display = 'none';
     gallerySimpleLightbox.refresh();
   } else {
-    
-    console.log('load more');
+    loadMoreBtn.style.display = 'block';
     gallerySimpleLightbox.refresh();
   }
 });
