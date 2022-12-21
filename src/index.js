@@ -15,6 +15,8 @@ let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let pageNumber = 1;
 let perPage = 40;
 
+inputButton.checked = true;
+
 async function searchImg(word, page) {
   const baseUrl = 'https://pixabay.com/api/';
   const response = await axios
@@ -92,10 +94,11 @@ function loadingGallery() {
   loadMoreBtn.style.display = 'none';
   searchImg(wordTrimed, pageNumber).then(wordFound => {
     let totalPages = wordFound.totalHits / perPage;
-    if (pageNumber > totalPages) {
+    if (pageNumber >= totalPages) {
       Notify.failure(
         "Were sorry, but you've reached the end of search results."
       );
+      loadMoreBtn.style.display = 'none';
     } else {
       renderImgListItems(wordFound.hits);
       gallerySimpleLightbox.refresh();
@@ -106,11 +109,6 @@ function loadingGallery() {
         top: cardHeight * 3,
         behavior: 'smooth',
       });
-      if (totalPages < 2) {
-        loadMoreBtn.style.display = 'none';
-      } else {
-        loadMoreBtn.style.display = 'block';
-      }
     }
     if (totalPages >= 2) {
       upBtn.classList.add('btn-up__visible');
@@ -129,10 +127,15 @@ inputButton.addEventListener('click', () => {
 });
 
 window.addEventListener('scroll', () => {
-  if (
-    window.scrollY + window.innerHeight >=
-    document.documentElement.scrollHeight
-  ) {
-    loadingGallery();
+  if (inputButton.checked) {
+    loadMoreBtn.style.display = 'none';
+    if (
+      window.scrollY + window.innerHeight >=
+      document.documentElement.scrollHeight
+    ) {
+      loadingGallery();
+    }
+  } else {
+    loadMoreBtn.style.display = 'none';
   }
 });
