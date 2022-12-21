@@ -15,7 +15,7 @@ let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let pageNumber = 1;
 let perPage = 40;
 
-inputButton.checked = true;
+//inputButton.checked = true;
 
 async function searchImg(word, page) {
   const baseUrl = 'https://pixabay.com/api/';
@@ -71,6 +71,9 @@ searchBtn.addEventListener('click', event => {
         renderImgListItems(wordFound.hits);
         Notify.success(`Hooray! We found ${wordFound.totalHits} images.`);
         gallerySimpleLightbox.refresh();
+        if (wordFound.totalHits > 40) {
+          loadMoreBtn.style.display = 'block';
+        }
       }
     });
   } else {
@@ -86,6 +89,7 @@ function noImgFound() {
   Notify.failure(
     'Sorry, there are no images matching your search query. Please try again.'
   );
+  loadMoreBtn.style.display = 'none';
 }
 
 function loadingGallery() {
@@ -94,7 +98,8 @@ function loadingGallery() {
   loadMoreBtn.style.display = 'none';
   searchImg(wordTrimed, pageNumber).then(wordFound => {
     let totalPages = wordFound.totalHits / perPage;
-    if (pageNumber >= totalPages) {
+
+    if (pageNumber > totalPages) {
       Notify.failure(
         "Were sorry, but you've reached the end of search results."
       );
@@ -135,7 +140,5 @@ window.addEventListener('scroll', () => {
     ) {
       loadingGallery();
     }
-  } else {
-    loadMoreBtn.style.display = 'none';
   }
 });
