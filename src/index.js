@@ -15,8 +15,6 @@ let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let pageNumber = 1;
 let perPage = 40;
 
-//inputButton.checked = true;
-
 async function searchImg(word, page) {
   const baseUrl = 'https://pixabay.com/api/';
   const response = await axios
@@ -95,15 +93,22 @@ function noImgFound() {
 function loadingGallery() {
   pageNumber++;
   const wordTrimed = searchInput.value.trim();
-  loadMoreBtn.style.display = 'none';
   searchImg(wordTrimed, pageNumber).then(wordFound => {
     let totalPages = wordFound.totalHits / perPage;
-
     if (pageNumber > totalPages) {
       Notify.failure(
         "Were sorry, but you've reached the end of search results."
       );
       loadMoreBtn.style.display = 'none';
+      inputButton.addEventListener('click', () => {
+        if (inputButton.checked) {
+          loadMoreBtn.style.display = 'none';
+          gallerySimpleLightbox.refresh();
+        } else {
+          loadMoreBtn.style.display = 'none';
+          gallerySimpleLightbox.refresh();
+        }
+      });
     } else {
       renderImgListItems(wordFound.hits);
       gallerySimpleLightbox.refresh();
@@ -114,22 +119,21 @@ function loadingGallery() {
         top: cardHeight * 3,
         behavior: 'smooth',
       });
+      inputButton.addEventListener('click', () => {
+        if (inputButton.checked) {
+          loadMoreBtn.style.display = 'none';
+          gallerySimpleLightbox.refresh();
+        } else {
+          loadMoreBtn.style.display = 'block';
+          gallerySimpleLightbox.refresh();
+        }
+      });
     }
     if (totalPages >= 2) {
       upBtn.classList.add('btn-up__visible');
     }
   });
 }
-
-inputButton.addEventListener('click', () => {
-  if (inputButton.checked) {
-    loadMoreBtn.style.display = 'none';
-    gallerySimpleLightbox.refresh();
-  } else {
-    loadMoreBtn.style.display = 'block';
-    gallerySimpleLightbox.refresh();
-  }
-});
 
 window.addEventListener('scroll', () => {
   if (inputButton.checked) {
